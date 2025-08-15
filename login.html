@@ -1,66 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Firebase Login</title>
   <style>
     body {
       background-color: white;
       color: black;
       font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
-    .logo {
-      font-size: 50px;
-      font-weight: bold;
-      margin-bottom: 20px;
+      text-align: center;
+      padding-top: 50px;
     }
     input {
-      display: block;
-      margin: 10px 0;
       padding: 10px;
+      margin: 5px;
       width: 250px;
-      font-size: 16px;
+      font-size: 14px;
     }
     button {
-      padding: 10px;
-      width: 270px;
-      background-color: black;
-      color: white;
-      font-size: 16px;
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 14px;
       cursor: pointer;
-      border: none;
-    }
-    button:hover {
-      background-color: #333;
     }
   </style>
 </head>
 <body>
+  <h1>Login</h1>
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+  <br>
+  <button id="loginBtn">Login</button>
 
-  <div class="logo">N</div>
-
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="login()">Login</button>
-  <button onclick="signup()">Sign Up</button>
-
-  <!-- Firebase App (core SDK) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-
-  <!-- Firebase Analytics -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js"></script>
-
-  <!-- Firebase Authentication -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 
-  <!-- Your JavaScript file -->
-  <script src="script.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+    const firebaseConfig = {
+      apiKey: "AIzaSyDwI_yqnJo6A6enpGrKQmFE1k2HTweZYuk",
+      authDomain: "my-app-f55fa.firebaseapp.com",
+      projectId: "my-app-f55fa",
+      storageBucket: "my-app-f55fa.firebasestorage.app",
+      messagingSenderId: "233925569187",
+      appId: "1:233925569187:web:1400810f17932416a46d16",
+      measurementId: "G-0Y14FN9NS3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
+
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(userCredential => {
+          alert("Login successful!");
+          console.log(userCredential.user);
+        })
+        .catch(error => {
+          alert("Login failed: " + error.message);
+        });
+    });
+  </script>
 </body>
 </html>
